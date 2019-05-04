@@ -55,6 +55,12 @@ public class PlayerInteraction : MonoBehaviour
 
     private void SelectUnit(Transform unit)
     {
+        if(m_unitTransform != null)
+        {
+            if (DeselectedUnit != null)
+                DeselectedUnit.Invoke();
+        }
+
         m_unitTransform = unit;
         m_unitView = m_unitTransform.GetComponent<UnitView>();
 

@@ -23,6 +23,7 @@ public class UnitMovement : UnitComponent
         this.enabled = false;
 
         PlayerInteraction.SelectedUnit += MovementInit;
+        PlayerInteraction.DeselectedUnit += CancelMovement;
 
         m_unitMesh = transform.GetChild(0);
     }
@@ -51,6 +52,11 @@ public class UnitMovement : UnitComponent
             if (this.enabled)
             {
                 this.enabled = false;
+
+                if (UnitStoppedMoving != null)
+                    UnitStoppedMoving.Invoke();
+
+                PlayerInteraction.MovementTargetMarker.TurnOffMovementTargetMarker();
             }
                                        
         }
@@ -88,7 +94,7 @@ public class UnitMovement : UnitComponent
         if(pathSuccessful)
         {
             path = newPath;
-            PlayerInteraction.MovementTargetMarker.SetMovementTargetPath(newPath);
+            PlayerInteraction.MovementTargetMarker.SetMovementTargetPath(transform.localPosition,newPath);
         }
     }
 
@@ -98,6 +104,7 @@ public class UnitMovement : UnitComponent
             UnitMoving.Invoke();
 
         Vector3 currentWaypoint = path[0];        
+
         targetIndex = 0;
 
         UpdateMeshRotation(currentWaypoint);
@@ -119,8 +126,8 @@ public class UnitMovement : UnitComponent
 
                     yield break;
                 }
-              
-                currentWaypoint = new Vector3(path[targetIndex].x,0,path[targetIndex].z);
+
+                currentWaypoint = path[targetIndex];
 
                 UpdateMeshRotation(currentWaypoint);
             }           
@@ -144,6 +151,7 @@ public class UnitMovement : UnitComponent
 
     private void UpdateMeshRotation(Vector3 currentWaypoint)
     {
-        m_unitMesh.rotation = Quaternion.LookRotation(currentWaypoint - transform.position);
+        if(currentWaypoint - transform.position != Vector3.zero)
+            m_unitMesh.rotation = Quaternion.LookRotation(currentWaypoint - transform.position);
     }
 }

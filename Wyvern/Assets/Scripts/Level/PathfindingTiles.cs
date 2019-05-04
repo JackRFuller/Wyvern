@@ -72,22 +72,32 @@ public class PathfindingTiles : MonoBehaviour
                     int xPos = unitX + x;
                     int yPos = unitY + y;
 
-                    //Vector3 tilePosition = new Vector3(xPos, 0.5f, yPos);
+                    Vector3 worldPoint = new Vector3(xPos, 0, yPos);
 
-                    //bool walkable = !(Physics.CheckSphere(tilePosition, 0.5f, unWalkableTileMask));
+                    bool walkable = !(Physics.CheckSphere(worldPoint, 0.4f, unWalkableTileMask));
 
-                    if (xPos >= 0 && xPos < 8 && yPos >= 0 && yPos < 8)
+                    if(walkable)
                     {
-                        m_tileGrid[xPos, yPos].SetActive(true);
-                        m_activatedTiles.Add(m_tileGrid[xPos, yPos]);
+                        if (xPos >= 0 && xPos < 8 && yPos >= 0 && yPos < 8)
+                        {
+                            //Check if there is a valid path
+                            PathRequestManager.RequestPath(unitPosition, new Vector3(xPos, 0, yPos), OnPathFound);
+                        }
                     }
-
-                    //if (walkable)
-                    //{
-                        
-                    //}
                 }
             }
+        }
+    }
+
+    private void OnPathFound(Vector3[] newPath, bool pathSuccessful)
+    {
+        if(pathSuccessful && newPath.Length <= m_unitView.UnitData.movementRange)
+        {
+            int xPos = (int)newPath[newPath.Length - 1].x;
+            int yPos = (int)newPath[newPath.Length - 1].z;
+
+            m_tileGrid[xPos, yPos].SetActive(true);
+            m_activatedTiles.Add(m_tileGrid[xPos, yPos]);
         }
     }
 

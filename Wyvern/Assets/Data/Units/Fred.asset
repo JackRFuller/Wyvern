@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: Fred
   healthPoints: 1
-  movementRange: 4
+  movementRange: 3

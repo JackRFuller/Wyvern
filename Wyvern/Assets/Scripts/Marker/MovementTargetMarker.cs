@@ -15,22 +15,31 @@ public class MovementTargetMarker : MonoBehaviour
         m_targetPath = GetComponentInChildren<LineRenderer>();
         m_targetPathMaterial = m_targetPath.material;
 
-        TurnOffMovementTargetMarker();
+        StartCoroutine(TurnOffTargetMarker());
     }      
 
     public void TurnOffMovementTargetMarker()
     {
+        StartCoroutine(TurnOffTargetMarker());
+    }
+
+    IEnumerator TurnOffTargetMarker()
+    {
+        yield return new WaitForEndOfFrame();
+
         m_targetLocationSprite.enabled = false;
         m_targetPath.enabled = false;
     }
 
-    public void SetMovementTargetPath(Vector3[] wayPoints)
+    public void SetMovementTargetPath(Vector3 startingPoint, Vector3[] wayPoints)
     {
-        m_targetPath.positionCount = wayPoints.Length;
+        m_targetPath.positionCount = wayPoints.Length + 1;
 
-        for(int i = 0; i < wayPoints.Length; i++)
+        m_targetPath.SetPosition(0, startingPoint);
+
+        for (int i = 0; i < wayPoints.Length; i++)
         {
-            m_targetPath.SetPosition(i, wayPoints[i]);
+            m_targetPath.SetPosition(i + 1, wayPoints[i]);
         }
 
         Vector3 targetLocation = new Vector3(wayPoints[wayPoints.Length - 1].x,
