@@ -11,16 +11,24 @@ public class PlayerInteraction : MonoBehaviour
     private static Camera m_playerCamera;
     public static Camera PlayerCamera { get { return m_playerCamera; } }
 
-
     [SerializeField] private LayerMask unitLayerMask;
 
     //Unit
     private Transform m_unitTransform;
     private UnitView m_unitView;
 
+    [Header("Markers")]
+    [SerializeField] private GameObject movementTargetMarkerPrefab;
+
+    public static MovementTargetMarker MovementTargetMarker;
+
     private void Start()
     {
         m_playerCamera = GetComponent<Camera>();
+
+        //Spawn In Markers
+        GameObject movementMarker = Instantiate(movementTargetMarkerPrefab);
+        MovementTargetMarker = movementMarker.GetComponent<MovementTargetMarker>();
     }
 
     private void Update()

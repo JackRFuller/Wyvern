@@ -7,8 +7,7 @@ using TMPro;
 public class UIUnitInfo : MonoBehaviour
 {
     [Header("UI Objects")]
-    [SerializeField] private TMP_Text unitNameText;
-    [SerializeField] private Button moveActionButton;
+    [SerializeField] private TMP_Text unitNameText; 
     [SerializeField] private Button attackActionButton;
     
 
@@ -22,8 +21,7 @@ public class UIUnitInfo : MonoBehaviour
 
     private void TurnOffUIUnitInfo()
     {
-        unitNameText.enabled = false;
-        moveActionButton.gameObject.SetActive(false);
+        unitNameText.enabled = false;        
         attackActionButton.gameObject.SetActive(false);
     }
 
@@ -33,9 +31,8 @@ public class UIUnitInfo : MonoBehaviour
         unitNameText.enabled = true;
 
         //Set Delegates
-        moveActionButton.onClick.AddListener(delegate { unit.UnitMovement.OnClickMoveUnit(); });
-
-        moveActionButton.gameObject.SetActive(true);
+        //moveActionButton.onClick.AddListener(delegate { unit.UnitMovement.OnClickMoveUnit(); });
+        
         attackActionButton.gameObject.SetActive(true);
     }
 }
