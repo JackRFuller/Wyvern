@@ -10,4 +10,8 @@ public class UnitData : ScriptableObject
     public int healthPoints;
     [Range(1,5)]
     public int movementRange;
+    public LayerMask unwalkableTiles;
+
+    [Header("Weapon")]
+    public WeaponData weapon;
 }

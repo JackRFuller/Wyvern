@@ -15,3 +15,7 @@ MonoBehaviour:
   unitName: Fred
   healthPoints: 1
   movementRange: 3
+  unwalkableTiles:
+    serializedVersion: 2
+    m_Bits: 1280
+  weapon: {fileID: 11400000, guid: 551803409e938f9428331b2d02cd51af, type: 2}

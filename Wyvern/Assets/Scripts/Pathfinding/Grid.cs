@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Grid : MonoBehaviour
 {
-    [SerializeField] private bool showGrid;
+    [SerializeField] private bool showGrid = false;
     [SerializeField] private Vector2 m_gridWorldSize;
     [SerializeField] private float m_nodeRadius;
     [SerializeField] private LayerMask m_unwalkableMask;

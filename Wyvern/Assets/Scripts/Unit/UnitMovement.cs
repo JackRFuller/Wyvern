@@ -22,6 +22,8 @@ public class UnitMovement : UnitComponent
         base.Start();
         this.enabled = false;
 
+        GameManager.Instance.TurnManager.NewPlayerTurn += ResetTurnAttributes;
+
         PlayerInteraction.SelectedUnit += MovementInit;
         PlayerInteraction.DeselectedUnit += CancelMovement;
 
@@ -38,8 +40,11 @@ public class UnitMovement : UnitComponent
         if(unitView == m_unitView)
         {
             if (!m_hasUnitMoved)
-            {                
-                //Enable Mouse Click To Pick Moveable Tile
+            {
+                UnitAction unitAction = new UnitAction(m_unitView, true, m_unitView.UnitData.unwalkableTiles);
+
+                GameManager.Instance.ActionTiles.ShowActionTiles(unitAction);
+
                 this.enabled = true;
             }
         }
@@ -103,6 +108,7 @@ public class UnitMovement : UnitComponent
         if (UnitMoving != null)
             UnitMoving.Invoke();
 
+        m_hasUnitMoved = true;
         Vector3 currentWaypoint = path[0];        
 
         targetIndex = 0;
@@ -118,6 +124,8 @@ public class UnitMovement : UnitComponent
         {
             if(transform.position == currentWaypoint)
             {
+                GameManager.Instance.UnitManager.UpdateUnitPosition(transform.position);
+
                 targetIndex++;
 
                 if(targetIndex >= path.Length)
@@ -143,9 +151,9 @@ public class UnitMovement : UnitComponent
         if (UnitStoppedMoving != null)
             UnitStoppedMoving.Invoke();
 
+        GameManager.Instance.ActionTiles.HideActionTiles(m_unitView);
         PlayerInteraction.MovementTargetMarker.TurnOffMovementTargetMarker();
-
-        m_hasUnitMoved = true;
+      
         this.enabled = false;
     }
 
@@ -153,5 +161,10 @@ public class UnitMovement : UnitComponent
     {
         if(currentWaypoint - transform.position != Vector3.zero)
             m_unitMesh.rotation = Quaternion.LookRotation(currentWaypoint - transform.position);
+    }
+
+    private void ResetTurnAttributes()
+    {
+        m_hasUnitMoved = false;
     }
 }

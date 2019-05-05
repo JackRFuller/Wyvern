@@ -31,7 +31,7 @@ public class UIUnitInfo : MonoBehaviour
         unitNameText.enabled = true;
 
         //Set Delegates
-        //moveActionButton.onClick.AddListener(delegate { unit.UnitMovement.OnClickMoveUnit(); });
+        attackActionButton.onClick.AddListener(delegate { unit.UnitAttack.AttackInit(); });
         
         attackActionButton.gameObject.SetActive(true);
     }
