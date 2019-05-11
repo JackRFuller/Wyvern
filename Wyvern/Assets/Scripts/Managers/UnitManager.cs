@@ -5,7 +5,7 @@ using System;
 
 public class UnitManager : MonoBehaviour
 {
-    public Action<Vector3> UnitPositionUpdated;
+    public Action<Vector3> UnitPositionUpdated;    
 
     public void UpdateUnitPosition(Vector3 newUnitPosition)
     {

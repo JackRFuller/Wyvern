@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85eb8dbe1988c6946b520e0517f0d066, type: 3}
   m_Name: Stag
   m_EditorClassIdentifier: 
-  animalName: 
-  animalFieldOfView: {x: 2, y: 2}
+  animalName: Stag
+  animalFieldOfViewOffset: {x: 0, y: 0, z: 0.5}
+  animalFieldOfView: {x: 7, y: 2}
+  awarenessFactor: 15

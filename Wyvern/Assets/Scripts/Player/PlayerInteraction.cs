@@ -22,14 +22,14 @@ public class PlayerInteraction : MonoBehaviour
 
     public static MovementTargetMarker MovementTargetMarker;
 
-    private void Start()
+    private void Awake()
     {
         m_playerCamera = GetComponent<Camera>();
 
         //Spawn In Markers
         GameObject movementMarker = Instantiate(movementTargetMarkerPrefab);
         MovementTargetMarker = movementMarker.GetComponent<MovementTargetMarker>();
-    }
+    }  
 
     private void Update()
     {

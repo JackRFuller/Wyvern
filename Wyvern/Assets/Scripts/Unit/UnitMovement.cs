@@ -108,6 +108,8 @@ public class UnitMovement : UnitComponent
         if (UnitMoving != null)
             UnitMoving.Invoke();
 
+        Vector3 lastPosition = transform.position;
+
         m_hasUnitMoved = true;
         Vector3 currentWaypoint = path[0];        
 
@@ -122,16 +124,19 @@ public class UnitMovement : UnitComponent
 
         while (true)
         {
-            if(transform.position == currentWaypoint)
+            if (HasUnitMovedAWholeSquare(lastPosition) || targetIndex >= path.Length)
             {
+                lastPosition = transform.position;                
                 GameManager.Instance.UnitManager.UpdateUnitPosition(transform.position);
+            }
 
+            if(transform.position == currentWaypoint)
+            {             
                 targetIndex++;
 
                 if(targetIndex >= path.Length)
                 {
-                    StopMoving();
-
+                    StopMoving();                  
                     yield break;
                 }
 
@@ -144,6 +149,18 @@ public class UnitMovement : UnitComponent
 
             yield return null;
         }
+    } 
+
+    private bool HasUnitMovedAWholeSquare(Vector3 lastPosition)
+    { 
+        if (transform.position.x >= lastPosition.x + 1 || transform.position.x <= lastPosition.x - 1)        
+            return true;
+
+        if (transform.position.z >= lastPosition.z + 1 || transform.position.z <= lastPosition.z - 1)
+            return true;
+
+        return false;
+
     }
 
     private void StopMoving()

@@ -7,5 +7,9 @@ public class AnimalData : ScriptableObject
 {
     public string animalName;
 
+    public Vector3 animalFieldOfViewOffset;
     public Vector2 animalFieldOfView;
+
+    [Header("Awareness")]
+    public float awarenessFactor = 1; //Determines how easy the animal is to spook
 }
