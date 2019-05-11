@@ -14,10 +14,18 @@ public class UnitView : MonoBehaviour
     public UnitMovement UnitMovement { get { return m_unitMovement; } }
     public UnitAttack UnitAttack { get { return m_unitAttack; } }
 
+    private bool m_unitPerformingAction; 
+    public bool UnitPerformingAction { get { return m_unitPerformingAction; } }
+
     private void Awake()
     {
         m_unitMovement = this.gameObject.AddComponent<UnitMovement>();
         m_unitAnimation = this.gameObject.AddComponent<UnitAnimation>();
         m_unitAttack = this.gameObject.AddComponent<UnitAttack>();
+    }
+
+    public void SetUnitActionState(bool performingAction)
+    {
+        m_unitPerformingAction = performingAction;
     }
 }

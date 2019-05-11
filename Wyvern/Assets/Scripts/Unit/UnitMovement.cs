@@ -23,47 +23,44 @@ public class UnitMovement : UnitComponent
         this.enabled = false;
 
         GameManager.Instance.TurnManager.NewPlayerTurn += ResetTurnAttributes;
-
-        PlayerInteraction.SelectedUnit += MovementInit;
-        PlayerInteraction.DeselectedUnit += CancelMovement;
-
+        
         m_unitMesh = transform.GetChild(0);
     }
 
     private void Update()
     {
         ChooseMoveTile();
+
+        CancelMovement();
     }
 
-    private void MovementInit(UnitView unitView)
+    public void MovementInit()
     {
-        if(unitView == m_unitView)
+        if (!m_hasUnitMoved)
         {
-            if (!m_hasUnitMoved)
-            {
-                UnitAction unitAction = new UnitAction(m_unitView, true, m_unitView.UnitData.unwalkableTiles);
+            UnitAction unitAction = new UnitAction(m_unitView, true, m_unitView.UnitData.unwalkableTiles);
+            GameManager.Instance.ActionTiles.ShowActionTiles(unitAction);
+            m_unitView.SetUnitActionState(true);
 
-                GameManager.Instance.ActionTiles.ShowActionTiles(unitAction);
-
-                this.enabled = true;
-            }
-        }
+            this.enabled = true;
+        }        
     }  
 
     private void CancelMovement()
     {
         if(!m_hasUnitMoved)
         {
-            if (this.enabled)
+            if(Input.GetMouseButton(1))
             {
                 this.enabled = false;
 
+                PlayerInteraction.MovementTargetMarker.TurnOffMovementTargetMarker();
+                GameManager.Instance.ActionTiles.HideActionTiles(m_unitView);
+                m_unitView.SetUnitActionState(false);
+
                 if (UnitStoppedMoving != null)
                     UnitStoppedMoving.Invoke();
-
-                PlayerInteraction.MovementTargetMarker.TurnOffMovementTargetMarker();
-            }
-                                       
+            }                  
         }
     }
 
@@ -170,7 +167,8 @@ public class UnitMovement : UnitComponent
 
         GameManager.Instance.ActionTiles.HideActionTiles(m_unitView);
         PlayerInteraction.MovementTargetMarker.TurnOffMovementTargetMarker();
-      
+        m_unitView.SetUnitActionState(false);
+
         this.enabled = false;
     }
 

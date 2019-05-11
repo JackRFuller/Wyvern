@@ -48,7 +48,10 @@ public class PlayerInteraction : MonoBehaviour
         {
             if(Input.GetMouseButtonDown(0))
             {
-                SelectUnit(hit.transform);
+                if(m_unitTransform != hit.transform)
+                {
+                    SelectUnit(hit.transform);
+                }
             }
         }
     }
@@ -71,12 +74,18 @@ public class PlayerInteraction : MonoBehaviour
     private void DeselectUnit()
     {
         if(Input.GetMouseButtonDown(1))
-        {
-            if(m_unitTransform != null)
-                m_unitTransform = null;
+        {   
+            if(m_unitView != null)
+            {
+                if(!m_unitView.UnitPerformingAction)
+                {
+                    m_unitTransform = null;
+                    m_unitView = null;
 
-            if (DeselectedUnit != null)
-                DeselectedUnit.Invoke();
+                    if (DeselectedUnit != null)
+                        DeselectedUnit.Invoke();
+                }
+            }
         }
     }
 }
